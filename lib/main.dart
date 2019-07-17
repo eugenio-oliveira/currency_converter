@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:async;
+import 'dart:async';
 import 'dart:convert';
 
 const request = "https://api.hgbrasil.com/finance?format=json&key=3d2cb847";
 void main() async {
 
-  http.Response response = await http.get(request);
-  print(json.decode(response.body)["results"]["currencies"]["USD"]);
+  //print(await getData());
 
   runApp(MaterialApp(
     title: "Currency Converter v1.0",
-    home: Container(),
+    home: Home(),
   ));
 }
 
+Future<Map> getData() async {
+  http.Response response = await http.get(request);
+  return json.decode(response.body);
+}
 
-/*
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -25,7 +28,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: Text("\$ Currency Converter v1.0 \$", style: TextStyle(color: Colors.black)),
+        centerTitle: true,
+        backgroundColor: Colors.amber,
+      ),
+      
+    );
   }
 }
-*/
+
