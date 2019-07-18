@@ -11,16 +11,9 @@ void main() async {
   runApp(MaterialApp(
     title: "Currency Converter v1.0",
     home: Home(),
-    theme: ThemeData(
-      hintColor: Colors.amber,
-      primaryColor: Colors.white
-  ),
+    debugShowCheckedModeBanner: false,
+    theme: ThemeData(hintColor: Colors.amber, primaryColor: Colors.white),
   ));
-}
-
-Future<Map> getData() async {
-  http.Response response = await http.get(request);
-  return json.decode(response.body);
 }
 
 class Home extends StatefulWidget {
@@ -29,7 +22,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   final realController = TextEditingController();
   final dolarController = TextEditingController();
   final euroController = TextEditingController();
@@ -37,28 +29,28 @@ class _HomeState extends State<Home> {
   double dolar;
   double euro;
 
-  void _clearAll(){
+  void _clearAll() {
     realController.text = "";
     dolarController.text = "";
     euroController.text = "";
   }
 
-  void _changeRealValue(String text){
-    if(text.isEmpty) {
+  void _changeRealValue(String text) {
+    if (text.isEmpty) {
       _clearAll();
       return;
     }
     double real = double.parse(text);
-    if(text.isEmpty) {
+    if (text.isEmpty) {
       _clearAll();
       return;
     }
-    dolarController.text = (real/dolar).toStringAsFixed(2);
-    euroController.text = (real/euro).toStringAsFixed(2);
+    dolarController.text = (real / dolar).toStringAsFixed(2);
+    euroController.text = (real / euro).toStringAsFixed(2);
   }
 
-  void _changeDolarValue(String text){
-    if(text.isEmpty) {
+  void _changeDolarValue(String text) {
+    if (text.isEmpty) {
       _clearAll();
       return;
     }
@@ -67,7 +59,7 @@ class _HomeState extends State<Home> {
     euroController.text = (dolar * this.dolar / euro).toStringAsFixed(2);
   }
 
-  void _changeEuroValue(String text){
+  void _changeEuroValue(String text) {
     double euro = double.parse(text);
     realController.text = (euro * this.euro).toStringAsFixed(2);
     dolarController.text = (euro * this.euro / dolar).toStringAsFixed(2);
@@ -99,12 +91,13 @@ class _HomeState extends State<Home> {
               default:
                 if (snapshot.hasError) {
                   return Center(
-                    child: Text("Error Loading Data.",
+                    child: Text(
+                      "Error Loading Data.",
                       style: TextStyle(color: Colors.amber, fontSize: 25.0),
                       textAlign: TextAlign.center,
                     ),
                   );
-                }else {
+                } else {
                   dolar = snapshot.data["results"]["currencies"]["USD"]["buy"];
                   euro = snapshot.data["results"]["currencies"]["EUR"]["buy"];
                   return SingleChildScrollView(
@@ -112,12 +105,16 @@ class _HomeState extends State<Home> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Icon(Icons.monetization_on, size: 150.0, color: Colors.amber),
-                        buildTextField("Real", "R\$ ", realController, _changeRealValue),
+                        Icon(Icons.monetization_on,
+                            size: 150.0, color: Colors.amber),
+                        buildTextField(
+                            "Real", "R\$ ", realController, _changeRealValue),
                         Divider(),
-                        buildTextField("Dolar", "\$ ", dolarController,_changeDolarValue),
+                        buildTextField(
+                            "Dolar", "\$ ", dolarController, _changeDolarValue),
                         Divider(),
-                        buildTextField("Euro", "€ ", euroController, _changeEuroValue),
+                        buildTextField(
+                            "Euro", "€ ", euroController, _changeEuroValue),
                       ],
                     ),
                   );
@@ -128,20 +125,26 @@ class _HomeState extends State<Home> {
   }
 }
 
-Widget buildTextField(String label, String prefix, TextEditingController controller, Function function){
+Widget buildTextField(String label, String prefix,
+    TextEditingController controller, Function function) {
   return TextField(
-
-    onChanged: function,
-    keyboardType: TextInputType.numberWithOptions(decimal: true),
+    controller: controller,
     decoration: InputDecoration(
       labelText: label,
       labelStyle: TextStyle(color: Colors.amber),
       border: OutlineInputBorder(),
       prefixText: prefix,
     ),
-    controller: controller,
     style: TextStyle(
-        color: Colors.amber, fontSize: 20.0
+      color: Colors.amber,
+      fontSize: 20.0,
     ),
+    onChanged: function,
+    keyboardType: TextInputType.number,
   );
+}
+
+Future<Map> getData() async {
+  http.Response response = await http.get(request);
+  return json.decode(response.body);
 }
