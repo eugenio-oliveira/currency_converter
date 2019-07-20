@@ -9,7 +9,6 @@ void main() async {
   //print(await getData());
 
   runApp(MaterialApp(
-    title: "Currency Converter v1.0",
     home: Home(),
     debugShowCheckedModeBanner: false,
     theme: ThemeData(hintColor: Colors.amber, primaryColor: Colors.white),
@@ -107,7 +106,7 @@ class _HomeState extends State<Home> {
                       children: <Widget>[
                         Icon(Icons.monetization_on,
                             size: 150.0, color: Colors.amber),
-                        buildTextField(
+                        buildTextF  ield(
                             "Real", "R\$ ", realController, _changeRealValue),
                         Divider(),
                         buildTextField(
@@ -132,7 +131,9 @@ Widget buildTextField(String label, String prefix,
     decoration: InputDecoration(
       labelText: label,
       labelStyle: TextStyle(color: Colors.amber),
-      border: OutlineInputBorder(),
+      enabledBorder: OutlineInputBorder(borderSide: BorderSide(
+        color: Colors.amber
+      )),
       prefixText: prefix,
     ),
     style: TextStyle(
