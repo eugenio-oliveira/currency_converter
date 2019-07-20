@@ -106,7 +106,7 @@ class _HomeState extends State<Home> {
                       children: <Widget>[
                         Icon(Icons.monetization_on,
                             size: 150.0, color: Colors.amber),
-                        buildTextF  ield(
+                        buildTextField(
                             "Real", "R\$ ", realController, _changeRealValue),
                         Divider(),
                         buildTextField(
@@ -131,9 +131,8 @@ Widget buildTextField(String label, String prefix,
     decoration: InputDecoration(
       labelText: label,
       labelStyle: TextStyle(color: Colors.amber),
-      enabledBorder: OutlineInputBorder(borderSide: BorderSide(
-        color: Colors.amber
-      )),
+      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.amber)),
+      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.amber)),
       prefixText: prefix,
     ),
     style: TextStyle(
